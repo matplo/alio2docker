@@ -21,4 +21,5 @@ SHELL ["/bin/bash", "-c"]
 # RUN chmod +x /usr/bin/alidocko2shell.sh
 # RUN /bin/bash /usr/bin/alidocko2shell.sh
 
-CMD ["/bin/bash" "-c" "/alisoft/alidocko2shell.sh"]
+CMD /alisoft/alidocko2shell.sh
+
