@@ -6,7 +6,7 @@ Alice O2 software in a docker
 1. clone 
 2. run `./buildDocker.sh` to make the docker image
 3. run `./runDocker.sh` to run it...
-4. run `./buildO2Physics.sh` and bet super patient... ;-)
+4. run `./buildO2Physics.sh` and be super patient... ;-)
 
 ## few notes
 
