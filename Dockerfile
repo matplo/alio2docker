@@ -14,3 +14,5 @@ RUN apt -y install python3-alibuild
 RUN apt-get -y install emacs vim nano
 
 ENV LANG en_US.utf8
+
+COPY ./alidocko2shell.sh /usr/bin
