@@ -25,4 +25,4 @@ docker build -t alisoft:o2 --label alisoft https://github.com/matplo/alio2docker
 docker run -it \
 	--mount type=bind,source="$(pwd)",target=/alisoft \
 	alisoft:o2 \
-	alidocko2shell.sh
+	/usr/bin/alidocko2shell.sh

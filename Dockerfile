@@ -16,3 +16,4 @@ RUN apt-get -y install emacs vim nano
 ENV LANG en_US.utf8
 
 COPY ./alidocko2shell.sh /usr/bin
+RUN chmod +x /usr/bin/alidocko2shell.sh
