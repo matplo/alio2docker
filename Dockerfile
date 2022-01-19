@@ -17,11 +17,8 @@ ENV LANG en_US.utf8
 
 SHELL ["/bin/bash", "-c"]
 
-# COPY ./alidocko2shell.sh /usr/bin
-# RUN chmod +x /usr/bin/alidocko2shell.sh
+COPY ./alidocko2shell.sh /usr/bin
+RUN chmod +x /usr/bin/alidocko2shell.sh
 # RUN /bin/bash /usr/bin/alidocko2shell.sh
 # CMD /alisoft/alidocko2shell.sh
-
-RUN /bin/bash -c export PS1="(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "
-
-ENTRYPOINT [ "/bin/bash" ]
+ENTRYPOINT [ "/usr/bin/alidocko2shell.sh" ]
