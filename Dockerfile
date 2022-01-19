@@ -22,5 +22,6 @@ SHELL ["/bin/bash", "-c"]
 # RUN /bin/bash /usr/bin/alidocko2shell.sh
 # CMD /alisoft/alidocko2shell.sh
 
+RUN /bin/bash -c export PS1="(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "
+
 ENTRYPOINT [ "/bin/bash" ]
-SHELL ["/bin/bash", "-c", 'export PS1="(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "']
