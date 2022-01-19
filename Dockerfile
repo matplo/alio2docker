@@ -14,8 +14,12 @@ RUN apt -y install python3-alibuild
 RUN apt-get -y install emacs vim nano
 
 ENV LANG en_US.utf8
+ENV PS1 "(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "
+ENV color_prompt yes
 
 SHELL ["/bin/bash", "-c"]
+
+COPY bash_aliases.sh /root/.bash_aliases.sh
 
 # COPY ./alidocko2shell.sh /usr/bin
 # RUN chmod +x /usr/bin/alidocko2shell.sh
@@ -24,4 +28,4 @@ SHELL ["/bin/bash", "-c"]
 # ENTRYPOINT [ "/usr/bin/alidocko2shell.sh" ]
 # ENTRYPOINT [ "/bin/bash", "-i", "/alisoft/alidocko2shell.sh" ]
 
-CMD source /root/.bashrc && /alisoft/alidocko2shell.sh
+# CMD source /root/.bashrc && /alisoft/alidocko2shell.sh
