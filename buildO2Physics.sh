@@ -18,9 +18,8 @@ source ${THISD}/util.sh
 separator "${BASH_SOURCE}"
 
 cd ${THISD}
-echo "export ALIBUILD_WORK_DIR=\"${THISD}/sw\"" > ${THISD}/alicerc.sh
-echo "eval \"`alienv shell-helper`\"" >> ${THISD}/alicerc.sh
-. ${THISD}/.alicerc.sh
+export ALIBUILD_WORK_DIR="${THISD}/sw"
+eval `alienv shell-helper`
 
 aliBuild init O2Physics@master --defaults o2
 aliDoctor O2Physics --defaults o2
