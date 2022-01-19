@@ -19,7 +19,7 @@ ENV color_prompt yes
 
 SHELL ["/bin/bash", "-c"]
 
-COPY bash_aliases.sh /root/.bash_aliases.sh
+COPY ./bash_aliases.sh /root/.bash_aliases.sh
 
 # COPY ./alidocko2shell.sh /usr/bin
 # RUN chmod +x /usr/bin/alidocko2shell.sh
