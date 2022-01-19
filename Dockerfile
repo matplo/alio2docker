@@ -19,4 +19,6 @@ SHELL ["/bin/bash", "-c"]
 
 COPY ./alidocko2shell.sh /usr/bin
 RUN chmod +x /usr/bin/alidocko2shell.sh
-RUN /bin/bash /usr/bin/alidocko2shell.sh
+# RUN /bin/bash /usr/bin/alidocko2shell.sh
+
+SHELL ["/usr/bin/alidocko2shell.sh", "-c"]
