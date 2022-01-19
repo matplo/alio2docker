@@ -22,5 +22,6 @@ SHELL ["/bin/bash", "-c"]
 # RUN /bin/bash /usr/bin/alidocko2shell.sh
 # CMD /alisoft/alidocko2shell.sh
 # ENTRYPOINT [ "/usr/bin/alidocko2shell.sh" ]
+# ENTRYPOINT [ "/bin/bash", "-i", "/alisoft/alidocko2shell.sh" ]
 
-ENTRYPOINT [ "/bin/bash", "-i", "/alisoft/alidocko2shell.sh" ]
+CMD source /root/.bashrc && /alisoft/alidocko2shell.sh
