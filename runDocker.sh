@@ -95,9 +95,8 @@ echo_info "cmnd to execute: ${_cmnd}"
 
 # note about running containers
 if [ "x0" != "x$nrunlistRunning" ]; then
-	echo_warning "[info] note you have ${nrunlistRunning} running instances [${runlistRunning}]"
+	echo_warning "[info] note, you already have ${nrunlistRunning} running instances [${runlistRunning}]"
 fi
-
 
 _tmp_name=$(mktemp)
 _slash="/"
