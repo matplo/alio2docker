@@ -73,7 +73,7 @@ fi
 create_current_user_file
 
 separator "running container"
-docker run -it \
+docker run -it --rm \
 --mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 -w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
 --name alisoft.o2 \
