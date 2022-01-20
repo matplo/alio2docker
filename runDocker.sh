@@ -60,7 +60,7 @@ function create_current_user_files()
 	echo "export _GID=$(id -g)" >> $fout
 	if [ -d ${HOME}/.globus ]; then
 		if [ -d ${THISD}/alisoft/.globus ]; then
-			echo_warning "${THISD}/alisoft/.globus already exists - another docker running? - pass..."
+			echo_warning "[info] ${THISD}/alisoft/.globus already exists - pass..."
 		else
 			echo_info "copying ${HOME}/.globus to ${THISD}/alisoft/.globus"
 			cp -pr ${HOME}/.globus ${THISD}/alisoft/
