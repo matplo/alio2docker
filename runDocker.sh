@@ -51,15 +51,19 @@ function check_ps_states()
 }
 export -f check_ps_states
 
-function create_current_user_file()
+function create_current_user_files()
 {
-	echo_warning "Creating current user file..."
+	echo_warning "Creating current user files..."
 	fout=${THISD}/alisoft/.current_user.sh
 	echo "export _USERNAME=$(whoami)" > $fout
 	echo "export _UID=$(id -u)" >> $fout
 	echo "export _GID=$(id -g)" >> $fout
+	if [ -d $HOME/.globus ]; then
+		echo_warning "Copying .globus..."
+		cp -pr $HOME/.globus ${THISD}/alisoft/
+	fi
 }
-export -f create_current_user_file
+export -f create_current_user_files
 
 ########
 
@@ -70,7 +74,7 @@ if [ "x0" != "x$nrunlistExited" ]; then
 	docker rm $runlistExited
 fi
 
-create_current_user_file
+create_current_user_files
 
 separator "running container"
 docker run -it --rm \
@@ -80,3 +84,4 @@ docker run -it --rm \
 --user root \
 alisoft:o2 \
 echo "[i] Container stop."
+rm -rf ${THISD}/alisoft/.globus

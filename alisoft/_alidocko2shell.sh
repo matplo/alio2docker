@@ -28,6 +28,11 @@ if [ -f ${THISD}/.current_user.sh ]; then
 	echo "${_USERNAME}  ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${_USERNAME}
 	cat /alisoft/_bash_aliases >> /home/$_USERNAME/.bash_aliases
 	echo_info "written to /home/$_USERNAME/.bash_aliases "
+	if [ -d /alisoft/.globus ]; then
+		echo_info "Propagating .globus..."
+		cp -pr /alisoft/.globus /home/$_USERNAME/
+	fi
+	chown -R $_UID:$_GID /home/$_USERNAME
 fi
 
 # Running passed command

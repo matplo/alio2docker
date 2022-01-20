@@ -6,4 +6,7 @@ eval `alienv shell-helper`
 
 color_prompt=yes
 
-cd /alisoft
+# cd /alisoft
+
+export PATH=$PATH:/alisoft
+
