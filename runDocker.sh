@@ -14,8 +14,9 @@ function thisdir()
 	echo ${DIR}
 }
 THISD=$(thisdir)
-source ${THISD}/util.sh
+source ${THISD}/alisoft/_util.sh
 separator "${BASH_SOURCE}"
+
 
 function check_ps()
 {
@@ -50,71 +51,32 @@ function check_ps_states()
 }
 export -f check_ps_states
 
-function run_container()
+function create_current_user_file()
 {
-	separator "running container"
-	echo_warning "Running -it with $@"
-	docker run -d \
-	--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
-	-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
-	--name alisoft.o2 \
-	$@ \
-	alisoft:o2 
+	echo_warning "Creating current user file..."
+	fout=${THISD}/alisoft/.current_user.sh
+	echo "export _USERNAME=$(whoami)" > $fout
+	echo "export _UID=$(id -u)" >> $fout
+	echo "export _GID=$(id -g)" >> $fout
 }
-export -f run_container
+export -f create_current_user_file
 
-function container_create_current_user()
-{
-	separator "creating user $(id -u) $(whoami)"
-	echo_warning "Note: username not available in passwd file - not mapping passwd/groups"
-	userconfig=""
-	docker exec \
-	--user root \
-	$1 \
-	/alisoft/createuser.sh $(whoami) $(id -u) $(id -g)
-}
-export -f container_create_current_user
+########
 
-function exec_it()
-{
-	separator "executing docker bash ${1} ..."
-	# docker exec -it ${1} /bin/bash
-	docker container start -ai ${1}
-	docker ps -all
-	# docker container attach ${runlistExited}
-}
-export -f exec_it
-
-docker ps -all
 check_ps_states
-echo_info "Found $nrunlistExited EXITED containers [$runlistExited]."
-echo_info "Found $nrunlistRunning RUNNING containers [$runlistRunning]."
-echo_info "Found $nrunlistAny ANY containers [$runlistAny]."
 
-# run first time and create user if needed
-if [ "x0" == "x$nrunlistExited" ]; then
-	suname=$(id -u)
-	grepuname=$(grep ${suname} /etc/passwd)
-	userconfig="--user $(id -u):$(id -g)"
-	if [ ! -z ${grepuname} ]; then
-		[ -f /etc/group ] && gvolgroup="--volume=/etc/group:/etc/group:ro "
-		[ -f /etc/passwd ] && gvolpasswd="--volume=/etc/passwd:/etc/passwd:ro "
-		[ -f /etc/shadow ] && gvolshadow="--volume=/etc/shadow:/etc/shadow:ro "
-	fi
-
-	run_container ${gvolgroup} ${gvolpasswd} ${gvolshadow} ${userconfig}
-
-	if [ -z ${grepuname} ]; then
-		check_ps_states
-		if [ "x1" == "x$nrunlistExited" ]; then
-			container_create_current_user $runlistExited
-		fi
-	fi
-else
-	if [ "x1" == "x$nrunlistExited" ]; then
-		exec_it $runlistExited
-	else
-		echo_error "unclear what to do... stop here."
-		docker ps --filter status=exited
-	fi
+if [ "x0" != "x$nrunlistExited" ]; then
+	echo_warning "Removing container $runlistExited"
+	docker rm $runlistExited
 fi
+
+create_current_user_file
+
+separator "running container"
+docker run -it \
+--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
+-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
+--name alisoft.o2 \
+--user root \
+alisoft:o2 \
+echo "[i] Container stop."
