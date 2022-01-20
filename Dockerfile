@@ -19,13 +19,17 @@ ENV PS1 "(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "
 
 SHELL ["/bin/bash", "-c"]
 
-COPY ./bash_aliases.sh /root/.bash_aliases.sh
 
-# COPY ./alidocko2shell.sh /usr/bin
-# RUN chmod +x /usr/bin/alidocko2shell.sh
-# RUN /bin/bash /usr/bin/alidocko2shell.sh
-# CMD /alisoft/alidocko2shell.sh
-# ENTRYPOINT [ "/usr/bin/alidocko2shell.sh" ]
-# ENTRYPOINT [ "/bin/bash", "-i", "/alisoft/alidocko2shell.sh" ]
+# Set up a user group
+ARG username=alidock
+ARG id=9999
+RUN groupadd -g ${id} ${username} \
+    && useradd --create-home --home-dir /home/${username} -u ${id} -g ${username} ${username}
+USER ${username}
+ENV HOME /home/${username}
+WORKDIR ${HOME}
 
-# CMD source /root/.bashrc && /alisoft/alidocko2shell.sh
+COPY ./bash_aliases.sh /home/${username}/.bash_aliases.sh
+
+ENTRYPOINT [ "/bin/bash", "-l" ]
+

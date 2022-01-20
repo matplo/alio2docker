@@ -22,5 +22,5 @@ mkdir -p ${ALIDOCKDIR}
 cd ${ALIDOCKDIR}
 docker build -t alisoft:o2 --label alisoft https://github.com/matplo/alio2docker.git#main
 
-cp ${THISD}/alidocko2shell.sh ${ALIDOCKDIR}
-chmod +x ${ALIDOCKDIR}/alidocko2shell.sh
+# cp ${THISD}/alidocko2shell.sh ${ALIDOCKDIR}
+# chmod +x ${ALIDOCKDIR}/alidocko2shell.sh

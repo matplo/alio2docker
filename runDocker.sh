@@ -62,11 +62,19 @@ if [ "x0" == "x$nrunlistExited" ]; then
 	echo_info "Found ${nrunlistRunning} running containers..."
 	if [ "x0" == "x$nrunlistRunning" ]; then
 		separator "Executing docker run..."
+		gvols=""
+		[ -f /etc/group ] && gvols="${gvols} --volume=\"/etc/group:/etc/group:ro\""
+		[ -f /etc/passwd ] && gvols="${gvols} --volume=\"/etc/passwd:/etc/passwd:ro\""
+		[ -f /etc/shadow ] && gvols="${gvols} --volume=\"/etc/shadow:/etc/shadow:ro\""
+		echo_warning "Mapping volumes ${gvols}"
 		docker run -it \
-		--mount type=bind,source="$(pwd)",target=/alisoft \
-		-w /alisoft -h alio2dock --env-file alio2docker.env \
+		--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
+		-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
 		--name alio2 \
+		--user $(id -u):$(id -g) \
+		${gvols} \
 		alisoft:o2 
+		# --group-add $(id -g) \
 	else
 		if [ "x1" == "x$nrunlistRunning" ]; then
 			separator "Attaching to ${runlistRunning} ..."
