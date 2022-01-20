@@ -63,9 +63,9 @@ if [ "x0" == "x$nrunlistExited" ]; then
 	if [ "x0" == "x$nrunlistRunning" ]; then
 		separator "Executing docker run..."
 		gvols=""
-		[ -f /etc/group ] && gvols="${gvols} --volume=\"/etc/group:/etc/group:ro\""
-		[ -f /etc/passwd ] && gvols="${gvols} --volume=\"/etc/passwd:/etc/passwd:ro\""
-		[ -f /etc/shadow ] && gvols="${gvols} --volume=\"/etc/shadow:/etc/shadow:ro\""
+		[ -f /etc/group ] && gvols="${gvols} --volume=/etc/group:/etc/group:ro "
+		[ -f /etc/passwd ] && gvols="${gvols} --volume=/etc/passwd:/etc/passwd:ro "
+		[ -f /etc/shadow ] && gvols="${gvols} --volume=/etc/shadow:/etc/shadow:ro "
 		echo_warning "Mapping volumes ${gvols}"
 		docker run -it \
 		--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \

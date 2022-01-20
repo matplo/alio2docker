@@ -17,8 +17,9 @@ THISD=$(thisdir)
 source ${THISD}/util.sh
 separator "${BASH_SOURCE}"
 
-ALIDOCKDIR=${THISD}/alidock
-mkdir -p ${ALIDOCKDIR}
+#ALIDOCKDIR=${THISD}/alidock
+# mkdir -p ${ALIDOCKDIR}
+ALIDOCKDIR=${THISD}/alisoft
 cd ${ALIDOCKDIR}
 docker build -t alisoft:o2 --label alisoft https://github.com/matplo/alio2docker.git#main
 
