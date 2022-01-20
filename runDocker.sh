@@ -109,4 +109,4 @@ if [ -d ${THISD}/alisoft/.globus ]; then
  		rm -rf ${THISD}/alisoft/.globus
 	fi
 fi
-separator "done."
+separator "${BASH_SOURCE} done."

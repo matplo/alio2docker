@@ -42,14 +42,13 @@ fi
 
 # Running passed command
 if [[ "$1" ]]; then
-	#eval "$@"
 	echo_error "[exec] $@"
-	# sudo su - $_USERNAME "$(/bin/bash \"$@\")"
+	separator "$HOSTNAME"
 	sudo runuser -u ${_USERNAME} -- $@
-	#else
-	#	exec "$@"
-	#fi
+	separator "."
 else
 	echo_error "[exec] droping to a shell..."
+	separator "/bin/bash @ $HOSTNAME"
 	sudo runuser -u ${_USERNAME} -- /bin/bash -l
+	separator "."
 fi
