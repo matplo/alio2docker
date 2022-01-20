@@ -14,7 +14,7 @@ function thisdir()
 	echo ${DIR}
 }
 THISD=$(thisdir)
-source ${THISD}/util.sh
+source ${THISD}/_util.sh
 separator "${BASH_SOURCE}"
 
 cd ${THISD}
