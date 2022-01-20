@@ -54,7 +54,7 @@ function run_container()
 {
 	separator "running container"
 	echo_warning "Running -it with $@"
-	docker run \
+	docker run -d \
 	--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 	-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
 	--name alisoft.o2 \

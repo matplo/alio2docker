@@ -40,4 +40,5 @@ WORKDIR ${HOME}
 
 COPY ./bash_aliases.sh /home/${username}/.bash_aliases.sh
 
-ENTRYPOINT [ "/bin/bash", "-i" ]
+# ENTRYPOINT [ "/bin/bash", "-i" ]
+ENTRYPOINT [ "/alisoft/alidocko2shell.sh" ]
