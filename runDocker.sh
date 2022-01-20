@@ -58,9 +58,14 @@ function create_current_user_files()
 	echo "export _USERNAME=$(whoami)" > $fout
 	echo "export _UID=$(id -u)" >> $fout
 	echo "export _GID=$(id -g)" >> $fout
-	if [ -d $HOME/.globus ]; then
-		echo_warning "Copying .globus..."
-		cp -pr $HOME/.globus ${THISD}/alisoft/
+	if [ -d ${HOME}/.globus ]; then
+		if [ -d ${THISD}/alisoft/.globus ]; then
+			echo_warning "${THISD}/alisoft/.globus already exists - another docker running? - pass..."
+		else
+			echo_info "copying ${HOME}/.globus to ${THISD}/alisoft/.globus"
+			cp -pr ${HOME}/.globus ${THISD}/alisoft/
+			_globus_copied=1
+		fi
 	fi
 }
 export -f create_current_user_files
@@ -76,13 +81,32 @@ fi
 
 create_current_user_files
 
+_interactive="-it"
+_cmnd=""
+
+# check if a command to execute
+if [ ! -z "${1}" ]; then
+		_cmnd="$@"
+		_interactive=""
+fi
+
+echo_info "interactive? ${_interactive}"
+echo_info "cmnd to execute: ${_cmnd}"
+
+# run the container
 separator "running container"
-docker run -it --rm \
---mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
--w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
---name alisoft.o2 \
---user root \
-alisoft:o2 \
-echo "[info] Container stop."
-rm -rf ${THISD}/alisoft/.globus
+docker run ${_interactive} --rm \
+	--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
+	-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
+	--name alisoft.o2 \
+	--user root \
+	alisoft:o2 \
+	${_cmnd}
+
+if [ -d ${THISD}/alisoft/.globus ]; then
+	if [[ ${_globus_copied} ]]; then
+		echo_info "removing ${THISD}/alisoft/.globus"
+ 		rm -rf ${THISD}/alisoft/.globus
+	fi
+fi
 separator "done."

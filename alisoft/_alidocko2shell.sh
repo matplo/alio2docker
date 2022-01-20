@@ -22,8 +22,12 @@ separator "${BASH_SOURCE}"
 if [ -f ${THISD}/.current_user.sh ]; then
 	echo_info "changing to current/host user..."
 	source ${THISD}/.current_user.sh 
-	groupadd -g $_GID $_USERNAME
-	useradd -d /home/$_USERNAME -g $_GID --create-home -o -u $_UID -s /bin/bash $_USERNAME
+	if [ $(getent group ${_GID}) ]; then
+		echo_info "a roup id ${_GID} exists - not creating... $(cat /etc/group | grep ${_GID})"
+	else
+		groupadd -g ${_GID} $_USERNAME
+	fi
+	useradd -d /home/$_USERNAME -g ${_GID} --create-home -o -u ${_UID} -s /bin/bash $_USERNAME
 	echo "${_USERNAME}:${_USERNAME}!" | chpasswd
 	# adduser ${_USERNAME} sudo
 	echo "${_USERNAME}  ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${_USERNAME}
@@ -33,12 +37,19 @@ if [ -f ${THISD}/.current_user.sh ]; then
 		echo_info "propagating .globus..."
 		cp -pr /alisoft/.globus /home/$_USERNAME/
 	fi
-	chown -R $_UID:$_GID /home/$_USERNAME
+	chown -R ${_UID}:${_GID} /home/$_USERNAME
 fi
 
 # Running passed command
 if [[ "$1" ]]; then
 	#eval "$@"
-	sudo su - $_USERNAME
-	exec "$@"
+	echo_error "[exec] $@"
+	# sudo su - $_USERNAME "$(/bin/bash \"$@\")"
+	sudo runuser -u ${_USERNAME} -- $@
+	#else
+	#	exec "$@"
+	#fi
+else
+	echo_error "[exec] droping to a shell..."
+	sudo runuser -u ${_USERNAME} -- /bin/bash -l
 fi
