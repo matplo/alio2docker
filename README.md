@@ -15,3 +15,11 @@ Alice O2 software in a docker
 - `./runDocker.sh` will look for the exited (or running) containers before running a new one; so if you need another one make sure you use a different command...
 - `./buildO2Physics.sh` builds only that - need to tune/change if you want AliPhysics ...
 - ALICE Software will land in a mounted directory in subdirectories where you cloned the repo... - lots of bytes so beware; within docker container the directory is `/allisoft`
+- note the handy `alisoft/enterO2Physics.sh` that simply does `alienv enter O2Physics/latest-master-o2`
+
+## for the impatient
+
+- you can try downloading the compiled software pack (includes sources) from a pre-built archive (per request)
+- build the container
+- before running unpack the archive within the directory where cloned
+- run the container - you should be all set with a version of AliceO2Physics
