@@ -83,5 +83,6 @@ docker run -it --rm \
 --name alisoft.o2 \
 --user root \
 alisoft:o2 \
-echo "[i] Container stop."
+echo "[info] Container stop."
 rm -rf ${THISD}/alisoft/.globus
+separator "done."

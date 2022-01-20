@@ -22,6 +22,7 @@ separator "${BASH_SOURCE}"
 if [ -f ${THISD}/.current_user.sh ]; then
 	echo_info "changing to current/host user..."
 	source ${THISD}/.current_user.sh 
+	groupadd -g $_GID $_USERNAME
 	useradd -d /home/$_USERNAME -g $_GID --create-home -o -u $_UID -s /bin/bash $_USERNAME
 	echo "${_USERNAME}:${_USERNAME}!" | chpasswd
 	# adduser ${_USERNAME} sudo
@@ -29,7 +30,7 @@ if [ -f ${THISD}/.current_user.sh ]; then
 	cat /alisoft/_bash_aliases >> /home/$_USERNAME/.bash_aliases
 	echo_info "written to /home/$_USERNAME/.bash_aliases "
 	if [ -d /alisoft/.globus ]; then
-		echo_info "Propagating .globus..."
+		echo_info "propagating .globus..."
 		cp -pr /alisoft/.globus /home/$_USERNAME/
 	fi
 	chown -R $_UID:$_GID /home/$_USERNAME
