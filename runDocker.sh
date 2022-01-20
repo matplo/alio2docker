@@ -62,17 +62,26 @@ if [ "x0" == "x$nrunlistExited" ]; then
 	echo_info "Found ${nrunlistRunning} running containers..."
 	if [ "x0" == "x$nrunlistRunning" ]; then
 		separator "Executing docker run..."
-		gvols=""
-		[ -f /etc/group ] && gvols="${gvols} --volume=/etc/group:/etc/group:ro "
-		[ -f /etc/passwd ] && gvols="${gvols} --volume=/etc/passwd:/etc/passwd:ro "
-		[ -f /etc/shadow ] && gvols="${gvols} --volume=/etc/shadow:/etc/shadow:ro "
-		echo_warning "Mapping volumes ${gvols}"
+		suname=$(id -u)
+		grepuname=$(grep ${suname} /etc/passwd)
+		userconfig="--user $(id -u):$(id -g)"
+		if [ -z ${grepuname} ]; then
+			echo_warning "Note: username not available in passwd file - not mapping passwd/groups"
+			userconfig=""
+		else
+			[ -f /etc/group ] && gvolgroup="--volume=/etc/group:/etc/group:ro "
+			[ -f /etc/passwd ] && gvolpasswd="--volume=/etc/passwd:/etc/passwd:ro "
+			[ -f /etc/shadow ] && gvolshadow="--volume=/etc/shadow:/etc/shadow:ro "
+			echo_warning "Mapping volumes [${gvolgroup}] [${gvolpasswd}] [${gvolshadow}]"
+		fi
 		docker run -it \
 		--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 		-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
 		--name alio2 \
-		--user $(id -u):$(id -g) \
-		${gvols} \
+		${gvolgroup} \
+		${gvolpasswd} \
+		${gvolshadow} \
+		${userconfig} \
 		alisoft:o2 
 		# --group-add $(id -g) \
 	else

@@ -19,15 +19,26 @@ ENV PS1 "(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "
 
 SHELL ["/bin/bash", "-c"]
 
+RUN apt-get update && \
+	apt-get -y install sudo
+
+RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 
 # Set up a user group
-ARG username=alidock
+ARG username=alice
 ARG id=9999
 RUN groupadd -g ${id} ${username} \
-    && useradd --create-home --home-dir /home/${username} -u ${id} -g ${username} ${username}
+	&& useradd --no-create-home --home-dir /alisoft -u ${id} -g ${username} ${username} \
+	&& echo "${username}:${username}" | chpasswd \
+	&& adduser ${username} sudo
+#    && useradd --create-home --home-dir /home/${username} -u ${id} -g ${username} ${username}
 USER ${username}
-ENV HOME /home/${username}
+# ENV HOME /home/${username}
+ENV HOME /alisoft
 WORKDIR ${HOME}
+
+# know the root pass
+RUN echo 'root:alice' | chpasswd
 
 COPY ./bash_aliases.sh /home/${username}/.bash_aliases.sh
 
