@@ -68,6 +68,13 @@ if [ "x0" == "x$nrunlistExited" ]; then
 		if [ -z ${grepuname} ]; then
 			echo_warning "Note: username not available in passwd file - not mapping passwd/groups"
 			userconfig=""
+			docker run \
+			--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
+			-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
+			--name alisoft:o2 \
+			--user root:root \
+			alisoft:o2 \
+			/alisoft/createuser.sh $(whoami) $(id -u) $(id -g)
 		else
 			[ -f /etc/group ] && gvolgroup="--volume=/etc/group:/etc/group:ro "
 			[ -f /etc/passwd ] && gvolpasswd="--volume=/etc/passwd:/etc/passwd:ro "
@@ -77,10 +84,8 @@ if [ "x0" == "x$nrunlistExited" ]; then
 		docker run -it \
 		--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 		-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
-		--name alio2 \
-		${gvolgroup} \
-		${gvolpasswd} \
-		${gvolshadow} \
+		--name alisoft:o2 \
+		${gvolgroup} ${gvolpasswd} ${gvolshadow} \
 		${userconfig} \
 		alisoft:o2 
 		# --group-add $(id -g) \
