@@ -45,10 +45,8 @@ if [[ "$1" ]]; then
 	echo_error "[exec] $@"
 	separator "$HOSTNAME"
 	sudo runuser -u ${_USERNAME} -- "$@"
-	separator "."
 else
 	echo_error "[exec] droping to a shell..."
 	separator "/bin/bash @ $HOSTNAME"
 	sudo runuser -u ${_USERNAME} -- /bin/bash -l
-	separator "."
 fi

@@ -107,7 +107,6 @@ echo_info "instance name: ${_tmp_cont_name}"
 
 # run the container
 separator "running container"
-
 docker run ${_interactive} --rm \
 	--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 	-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
@@ -115,6 +114,7 @@ docker run ${_interactive} --rm \
 	--user root \
 	alisoft:o2 \
 	${_cmnd}
+separator "."
 
 if [ -d ${THISD}/alisoft/.globus ]; then
 	if [[ ${_globus_copied} ]]; then
