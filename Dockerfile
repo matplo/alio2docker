@@ -40,5 +40,4 @@ WORKDIR ${HOME}
 
 COPY ./bash_aliases.sh /home/${username}/.bash_aliases.sh
 
-ENTRYPOINT [ "/bin/bash", "-c" ]
-
+ENTRYPOINT [ "/bin/bash", "-i" ]
