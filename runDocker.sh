@@ -53,7 +53,7 @@ export -f check_ps_states
 
 function create_current_user_files()
 {
-	echo_warning "Creating current user files..."
+	echo_info "creating current user files..."
 	fout=${THISD}/alisoft/.current_user.sh
 	echo "export _USERNAME=$(whoami)" > $fout
 	echo "export _UID=$(id -u)" >> $fout
@@ -93,12 +93,26 @@ fi
 echo_info "interactive? ${_interactive}"
 echo_info "cmnd to execute: ${_cmnd}"
 
+# note about running containers
+if [ "x0" != "x$nrunlistRunning" ]; then
+	echo_warning "[info] note you have ${nrunlistRunning} running instances [${runlistRunning}]"
+fi
+
+
+_tmp_name=$(mktemp)
+_slash="/"
+_dash="-"
+_tmp_cont_name=${_tmp_name//$_slash/$_dash}
+_tmp_cont_name="alisoft.o2-${_tmp_cont_name}"
+echo_info "instance name: ${_tmp_cont_name}"
+
 # run the container
 separator "running container"
+
 docker run ${_interactive} --rm \
 	--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 	-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
-	--name alisoft.o2 \
+	--name ${_tmp_cont_name} \
 	--user root \
 	alisoft:o2 \
 	${_cmnd}
@@ -109,4 +123,8 @@ if [ -d ${THISD}/alisoft/.globus ]; then
  		rm -rf ${THISD}/alisoft/.globus
 	fi
 fi
+
+echo_info "removing ${_tmp_name}"
+rm -rf ${_tmp_name}
+
 separator "${BASH_SOURCE} done."
