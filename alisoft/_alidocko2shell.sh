@@ -28,14 +28,16 @@ function setup_ssh()
 	cp -vp /home/${_USERNAME}/.ssh/id_rsa.pub /home/${_USERNAME}/.ssh/authorized_keys
 	cp -v ${THISD}/_sshd_config /etc/ssh/sshd_config
 	service ssh start
-	echo_info "$?"
+	sudo runuser -u ${_USERNAME} -- ssh -o "StrictHostKeyChecking no" localhost echo "[info] ssh logon ok."
+	# OR ssh-keyscan -H 10.0.0.5 >> ~/.ssh/known_hosts
+	echo_info "starting ssh with result: $?"
 }
 
 if [ -f ${THISD}/.current_user.sh ]; then
 	echo_info "changing to current/host user..."
 	source ${THISD}/.current_user.sh 
 	if [ $(getent group ${_GID}) ]; then
-		echo_info "a roup id ${_GID} exists - not creating... $(cat /etc/group | grep ${_GID})"
+		echo_info "a group id ${_GID} exists - not creating... $(cat /etc/group | grep ${_GID})"
 	else
 		groupadd -g ${_GID} $_USERNAME
 	fi
@@ -50,7 +52,7 @@ if [ -f ${THISD}/.current_user.sh ]; then
 		cp -pr /alisoft/.globus /home/$_USERNAME/
 	fi
 	chown -R ${_UID}:${_GID} /home/$_USERNAME
-	$(setup_ssh)
+	setup_ssh
 fi
 
 # Running passed command
