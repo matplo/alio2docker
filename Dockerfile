@@ -12,6 +12,7 @@ RUN apt update
 RUN apt -y install python3-alibuild
 
 RUN apt-get -y install emacs vim nano
+RUN apt install openssh-server
 
 ENV LANG en_US.utf8
 ENV PS1 "(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "

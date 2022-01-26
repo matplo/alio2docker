@@ -15,9 +15,21 @@ function thisdir()
 	DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 	echo ${DIR}
 }
+
 THISD=$(thisdir)
 source ${THISD}/_util.sh
 separator "${BASH_SOURCE}"
+
+function setup_ssh()
+{
+	separator "setting up ssh for ${_USERNAME}"
+	_user=${_USERNAME}
+	sudo runuser -u ${_USERNAME} -- ssh-keygen -t rsa -f /home/${_USERNAME}/.ssh/id_rsa -N ''
+	cp -vp /home/${_USERNAME}/.ssh/id_rsa.pub /home/${_USERNAME}/.ssh/authorized_keys
+	cp -v ${THISD}/_sshd_config /etc/ssh/sshd_config
+	service ssh start
+	echo_info "$?"
+}
 
 if [ -f ${THISD}/.current_user.sh ]; then
 	echo_info "changing to current/host user..."
@@ -38,6 +50,7 @@ if [ -f ${THISD}/.current_user.sh ]; then
 		cp -pr /alisoft/.globus /home/$_USERNAME/
 	fi
 	chown -R ${_UID}:${_GID} /home/$_USERNAME
+	$(setup_ssh)
 fi
 
 # Running passed command
