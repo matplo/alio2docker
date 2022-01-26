@@ -2,8 +2,9 @@
 FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && \
-	apt-get -y install gcc git 
+RUN apt-get update
+RUN apt-get -y install apt-utils
+RUN apt-get -y install gcc git openssh-server
 	
 RUN apt-get -y install curl libcurl4-gnutls-dev build-essential gfortran libmysqlclient-dev xorg-dev libglu1-mesa-dev libfftw3-dev libxml2-dev git unzip autoconf automake autopoint texinfo gettext libtool libtool-bin pkg-config bison flex libperl-dev libbz2-dev swig liblzma-dev libnanomsg-dev rsync lsb-release environment-modules libglfw3-dev libtbb-dev python3-dev python3-venv libncurses-dev software-properties-common
 
@@ -12,7 +13,6 @@ RUN apt-get update
 RUN apt-get -y install python3-alibuild
 
 RUN apt-get -y install emacs vim nano
-RUN apt-get -y install openssh-server
 
 ENV LANG en_US.utf8
 ENV PS1 "(o2dock)\e[32;1m[\u\e[31;1m@\h\e[32;1m]\e[34;1m\w\e[0m\n> "
