@@ -111,6 +111,7 @@ docker run ${_interactive} --rm \
 	--mount type=bind,source="$(pwd)/alisoft",target=/alisoft \
 	-w /alisoft -h alio2dock --env-file "$(pwd)/alio2docker.env" \
 	--name ${_tmp_cont_name} \
+	--shm-size=8g \
 	--user root \
 	alisoft:o2 \
 	${_cmnd}
