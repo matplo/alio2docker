@@ -21,7 +21,7 @@ Alice O2 software in a docker
 - `./buildO2Physics.sh` builds only that - need to tune/change if you want AliPhysics ...
 - ALICE Software will land in a mounted directory in subdirectories where you cloned the repo... - lots of bytes so beware; within docker container the directory is `/alisoft`
 - note the handy `alisoft/enterO2Physics.sh` that simply does `alienv enter O2Physics/latest-master-o2`
-- the ./runDocker.sh will try to map your user name within the container - will essentially create a user with your system id (and a home dir)
+- the ./runDocker.sh will try to map your user name within the container - will essentially create a user with your system id (and a home dir) and will look for your ~/.globus files...
 
 ## for the impatient
 
