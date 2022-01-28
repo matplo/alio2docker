@@ -8,7 +8,7 @@ Alice O2 software in a docker (linux image - ubuntu 20.04)
 2. optional step (see #3 why ) run `./buildDocker.sh` to build the docker image locally (you may want to skip this step)
 3. run `./runDocker.sh` to run a the image... (note: in case no local images not found it will attempt to pull nobetternick/alisoft:o2)
 4. run `./buildO2Physics.sh` (within the container of course) and be super patient... ;-)
-5. optional: you can run `./run_at_test.sh` (run analysis tutorial test) - note: will attempt to curl an AOD file to `AO2D-tutorial.root`
+5. optional: you can run `./run_at_test.sh` (run analysis tutorial test) - note: will attempt to curl an AOD file to `AO2D-tutorial.root` - this *after* entering into the alienv with for example `./enterO2Physics.sh`
 
 - to run a single command within the container just add it to the `./runDocker.sh` (the container will run it and exit; interactive mode with no command at all)
 
