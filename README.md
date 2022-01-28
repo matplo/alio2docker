@@ -30,6 +30,6 @@ Alice O2 software in a docker (linux image - ubuntu 20.04)
 ## for the impatient
 
 - you can try downloading the compiled software pack (includes sources) from a pre-built archive (per request)
-- build the container
-- before running unpack the archive within the directory where cloned
+- unpack the archive within the directory where cloned (not necessarily within the docker)
+- build the container or download (pull - `./runDocker.sh` does it automatically)
 - run the container - you should be all set with a version of AliceO2Physics
