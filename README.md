@@ -4,7 +4,7 @@ Alice O2 software in a docker (linux image - ubuntu 20.04)
 
 ## quick how-to
 
-1. clone
+1. git clone https://github.com/matplo/alio2docker.git && cd alio2docker;
 2. optional step (see #3 why ) run `./buildDocker.sh` to build the docker image locally (you may want to skip this step)
 3. run `./runDocker.sh` to run a the image... (note: in case no local images not found it will attempt to pull nobetternick/alisoft:o2)
 4. run `./buildO2Physics.sh` (within the container of course) and be super patient... ;-)
