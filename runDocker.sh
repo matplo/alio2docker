@@ -17,25 +17,31 @@ THISD=$(thisdir)
 source ${THISD}/alisoft/_util.sh
 separator "${BASH_SOURCE}"
 
+# prefer locally build docker image but download if not found
+# note: docker images -q slower than docker image inspect (on a system with many images)
 docker_image_local=alisoft:o2
 # [ "$(docker images -q ${docker_image_local} 2> /dev/null)" == "" ]
 if [ ! -z $(docker images -q ${docker_image_local}) ]; then
 	echo_info "will use local image ${docker_image_local}"
+	echo_info "local images tagged ${docker_image_local} : $(docker images -q ${docker_image_local})"
 else
 	docker_image_local="nobetternick/${docker_image_local}"
 	if [ ! -z $(docker images -q ${docker_image_local}) ]; then
 		echo_info "will use local image ${docker_image_local}"
+		echo_info "local images tagged ${docker_image_local} : $(docker images -q ${docker_image_local})"
 	else
 		echo_info "pulling image ${docker_image_local}"
 		docker pull ${docker_image_local}
 		if [ ! -z $(docker images -q ${docker_image_local}) ]; then
 			echo_info "will use local image ${docker_image_local}"
+			echo_info "local images tagged ${docker_image_local} : $(docker images -q ${docker_image_local})"
 		else
 			error "local image ${docker_image_local} does not exist. stop here."
 			exit 1
 		fi
 	fi
 fi
+
 
 function check_ps()
 {
@@ -132,7 +138,7 @@ docker run ${_interactive} --rm \
 	--name ${_tmp_cont_name} \
 	--shm-size=8g \
 	--user root \
-	$docker_image_local \
+	${docker_image_local} \
 	${_cmnd}
 separator "."
 
