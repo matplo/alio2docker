@@ -21,7 +21,10 @@ separator "${BASH_SOURCE}"
 # mkdir -p ${ALIDOCKDIR}
 ALIDOCKDIR=${THISD}/alisoft
 cd ${ALIDOCKDIR}
-docker build -t alisoft:o2 --label alisoft https://github.com/matplo/alio2docker.git#main
+# docker build -t alisoft:o2 --label alisoft https://github.com/matplo/alio2docker.git#main
+
+cp ../Dockerfile .
+docker build -t alisoft:o2 --label alisoft .
 
 # cp ${THISD}/alidocko2shell.sh ${ALIDOCKDIR}
 # chmod +x ${ALIDOCKDIR}/alidocko2shell.sh
