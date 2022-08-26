@@ -42,7 +42,8 @@ USER ${username}
 ENV HOME /alisoft
 WORKDIR ${HOME}
 
-COPY ./alisoft/_bash_aliases /home/${username}/.bash_aliases
+#COPY ./alisoft/_bash_aliases /home/${username}/.bash_aliases
+COPY _bash_aliases /home/${username}/.bash_aliases
 
 # ENTRYPOINT [ "/bin/bash", "-i" ]
 ENTRYPOINT [ "/alisoft/_alidocko2shell.sh" ]
